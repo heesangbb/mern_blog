@@ -1,0 +1,36 @@
+.signup-content {
+  width: 400px;
+  border: 1px solid #e8e8e8;
+  border-radius: 2px;
+  padding: 50px;
+}
+
+.signup-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  padding-bottom: 30px;
+}
+
+.signup-form-group {
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.signup-form-group label {
+  width: 100%;
+}
+
+.signup-form-group input {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+  margin-top: 8px;
+}
+
+.signup-form-group button {
+  width: 100px;
+  height: 35px;
+  margin-top: 10px;
+  font-size: 14px;
+}
