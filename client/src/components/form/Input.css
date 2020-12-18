@@ -1,0 +1,21 @@
+.form-group {
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.form-group label span {
+  width: 100%;
+}
+
+.form-group input {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+  margin-top: 8px;
+}
+
+.form-group-error {
+  width: 100%;
+  font-size: 14px;
+  color: red;
+}
