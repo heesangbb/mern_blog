@@ -4,11 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import SignUp from './../../components/auth/SignUp';
 import Validate from './../../components/form/Validate';
 import { registerUser } from '../../actions/authActions';
+import { clearErrors } from '../../actions/errorActions';
 
 function SignUpPage({ history }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const errors = useSelector(state => state.errors);
+
+  useEffect(() => {
+    const unlisten = history.listen(() => {
+      dispatch(clearErrors());
+    });
+    return () => unlisten();
+  }, [history, clearErrors]);
 
   const [userData, setUserData] = useState({
     name: 'test',

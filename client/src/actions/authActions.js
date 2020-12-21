@@ -16,7 +16,8 @@ export const registerUser = (userData, callback) => dispatch => {
       callback();
     })
     .catch(err => {
-      dispatch(setErrors(err.response.data));
+      console.log('authActions.js', err.response);
+      dispatch(setErrors(err.response.status, err.response.statusText));
       dispatch(toggleUserLoading());
     });
 };

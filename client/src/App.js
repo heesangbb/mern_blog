@@ -7,6 +7,7 @@ import Landing from './components/layout/Landing';
 import LoginPage from './containers/auth/LoginPage';
 import SignUpPage from './containers/auth/SignUpPage';
 import './App.css';
+import Alert from './containers/layout/Alert';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Navbar />
         <div className="wrap">
           <div className="wrap-content">
+            <Alert />
             <Switch>
               <Route path="/" exact component={Landing} />
               <Route path="/login" exact component={LoginPage} />
