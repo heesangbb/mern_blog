@@ -32,4 +32,24 @@ userSchema.pre('save', function (next) {
   }
 });
 
+userSchema.methods.comparePassword = function (plainPassword, cb) {
+  return bcrypt.compare(plainPassword, this.password);
+};
+
+userSchema.methods.generateToken = function (cb) {
+  var user = this;
+  const payload = {
+    id: user.id,
+    name: user.name,
+  };
+
+  jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+    if (err) {
+      console.log('User.js', 'generateToken err', err);
+      return cb(err);
+    }
+    cb(null, token);
+  });
+};
+
 module.exports = mongoose.model('users', userSchema);

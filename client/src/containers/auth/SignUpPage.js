@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import SignUp from './../../components/auth/SignUp';
 import Validate from './../../components/form/Validate';
@@ -8,17 +7,10 @@ import { clearErrors } from '../../actions/errorActions';
 
 function SignUpPage({ history }) {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const auth = useSelector(state => state.auth);
   const errors = useSelector(state => state.errors);
 
-  useEffect(() => {
-    const unlisten = history.listen(() => {
-      dispatch(clearErrors());
-    });
-    return () => unlisten();
-  }, [history, clearErrors]);
-
-  const [userData, setUserData] = useState({
+  const [user, setUser] = useState({
     name: 'test',
     email: 'test@test.com',
     password: 'test123123',
@@ -26,23 +18,37 @@ function SignUpPage({ history }) {
     errors: {},
   });
 
+  useEffect(() => {
+    const unlisten = history.listen(() => dispatch(clearErrors()));
+    return () => unlisten();
+  }, [history, clearErrors]);
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      history.push('/');
+    }
+    setUser(user => {
+      return { ...user, errors };
+    });
+  }, [auth, errors, history]);
+
   const handleChange = e => {
-    setUserData({
-      ...userData,
+    setUser({
+      ...user,
       [e.target.name]: e.target.value,
     });
   };
 
   const handleBlur = e => {
     const { name, value } = e.target;
-    const err = { ...userData.errors, ...Validate(name, value).errors };
-    setUserData({ ...userData, errors: { ...err } });
+    const err = { ...user.errors, ...Validate(name, value).errors };
+    setUser({ ...user, errors: { ...err } });
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    const { name, email, password, passwordConfirm } = userData;
+    const { name, email, password, passwordConfirm } = user;
     if (!name || !email || !password) {
       alert('Please enter required fileds.');
       return;
@@ -52,16 +58,23 @@ function SignUpPage({ history }) {
       return;
     }
 
-    console.log('submit!!');
     dispatch(registerUser({ name, email, password }, handleCallback));
   };
 
   const handleCallback = () => {
     console.log('SignUpPage.js', 'callback!!!!');
-    // history.push('/login');
+    history.push('/login');
   };
 
-  return <SignUp user={userData} onChange={handleChange} onBlur={handleBlur} onSubmit={handleSubmit} />;
+  return (
+    <SignUp
+      user={user}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onSubmit={handleSubmit}
+      loading={auth.userLoading}
+    />
+  );
 }
 
 export default SignUpPage;

@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import NavigationBar from './../../components/layout/NavigationBar';
+import { logoutUser } from '../../actions/authActions';
 
 function Navbar() {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+
+  useEffect(() => {
+    console.log('Navbar.js', 'auth', auth.isAuthenticated);
+  }, [auth]);
+
   const handleLogout = e => {
     e.preventDefault();
-    console.log('logoutUser');
+
+    dispatch(logoutUser());
   };
-  return <NavigationBar logout={handleLogout} />;
+
+  return <NavigationBar auth={auth.isAuthenticated} logout={handleLogout} />;
 }
 
 export default Navbar;

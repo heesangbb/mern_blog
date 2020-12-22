@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './NavigationBar.css';
 
-function NavigationBar({ logout }) {
+function NavigationBar({ auth, logout }) {
   return (
     <div className="navigation-bar">
       <div className="navigation-content">
@@ -11,10 +11,13 @@ function NavigationBar({ logout }) {
           <Link to="/">MERN Blog</Link>
         </h5>
         <div className="navigation-button">
-          <Link to="/login">
-            <button>login</button>
-          </Link>
-          <button onClick={logout}>logout</button>
+          {auth ? (
+            <button onClick={logout}>Logout</button>
+          ) : (
+            <Link to="/login">
+              <button>Login</button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
@@ -22,6 +25,7 @@ function NavigationBar({ logout }) {
 }
 
 NavigationBar.propTypes = {
+  auth: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
 };
 

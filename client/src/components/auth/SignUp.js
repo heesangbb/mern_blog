@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './SignUp.css';
 import Input from './../form/Input';
 
-function SignUp({ user, onBlur, onChange, onSubmit }) {
+function SignUp({ user, onChange, onBlur, onSubmit, loading }) {
   const { name, email, password, passwordConfirm, errors } = user;
   return (
     <form className="signup-content" onSubmit={onSubmit}>
@@ -16,7 +16,7 @@ function SignUp({ user, onBlur, onChange, onSubmit }) {
         value={name}
         onChange={onChange}
         onBlur={onBlur}
-        error={errors.name}
+        error={errors && errors.name}
         placeholder="Enter user name"
       />
       <Input
@@ -26,7 +26,7 @@ function SignUp({ user, onBlur, onChange, onSubmit }) {
         value={email}
         onChange={onChange}
         onBlur={onBlur}
-        error={errors.email}
+        error={errors && errors.email}
         placeholder="Enter email address"
       />
       <Input
@@ -36,7 +36,7 @@ function SignUp({ user, onBlur, onChange, onSubmit }) {
         value={password}
         onChange={onChange}
         onBlur={onBlur}
-        error={errors.password}
+        error={errors && errors.password}
         placeholder="Enter password"
       />
       <Input
@@ -46,11 +46,13 @@ function SignUp({ user, onBlur, onChange, onSubmit }) {
         value={passwordConfirm}
         onChange={onChange}
         onBlur={onBlur}
-        error={errors.passwordConfirm}
+        error={errors && errors.passwordConfirm}
         placeholder="Enter password confirm"
       />
       <div className="signup-form-group">
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={loading}>
+          Submit
+        </button>
       </div>
       <div className="signup-form-group">
         Already have an account? <Link to="/login">Login</Link>
@@ -64,6 +66,7 @@ SignUp.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default SignUp;

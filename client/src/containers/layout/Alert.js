@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 
 function Alert(props) {
   const errors = useSelector(state => state.errors);
+  const { res, type } = errors;
+  const { status, statusText, data } = res;
   const style = {
     success: { bg: '#f6ffed', border: '1px solid #b7eb8f' },
     info: { bg: '#e6f7ff', border: '1px solid #91d5ff' },
