@@ -2,6 +2,8 @@ const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
 
+const users = require('./routes/api/users');
+
 const app = express();
 
 // middleware
@@ -17,6 +19,7 @@ mongoose
 
 // router
 app.get('/', (req, res) => res.send('hello world!!'));
+app.use('/api/users', users);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server up and running on http://localhost:${PORT}`));
