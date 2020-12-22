@@ -6,7 +6,6 @@ import { SET_CURRENT_USER, TOGGLE_USER_LOADING } from './types';
 import { setErrors } from './errorActions';
 
 export const registerUser = (userData, callback) => dispatch => {
-  console.log('authAction.js', userData, callback, dispatch);
   dispatch(toggleUserLoading());
   axios
     .post('/api/users/signup', userData)
@@ -16,8 +15,8 @@ export const registerUser = (userData, callback) => dispatch => {
       callback();
     })
     .catch(err => {
-      console.log('authActions.js', err.response);
-      dispatch(setErrors(err.response.status, err.response.statusText));
+      console.log('authActions.js', 'err', err.response);
+      dispatch(setErrors(err.response.status, err.response.statusText, 'error'));
       dispatch(toggleUserLoading());
     });
 };

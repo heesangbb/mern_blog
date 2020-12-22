@@ -1,6 +1,6 @@
 import { SET_ERRORS } from './types';
 
-export const setErrors = (title, msg, type) => {
+export const setErrors = (title, msg, type = 'success') => {
   return {
     type: SET_ERRORS,
     payload: { title, msg, type },
