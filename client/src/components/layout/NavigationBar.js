@@ -7,9 +7,11 @@ function NavigationBar({ auth, logout }) {
   return (
     <div className="navigation-bar">
       <div className="navigation-content">
-        <h5 className="navigation-logo">
-          <Link to="/">MERN Blog</Link>
-        </h5>
+        <div className="navigation-logo">
+          <Link to="/">B</Link>
+        </div>
+        <div className="navigation-seperate" />
+        <Link to="/blog">Blog</Link>
         <div className="navigation-button">
           {auth ? (
             <button onClick={logout}>Logout</button>

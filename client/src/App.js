@@ -8,9 +8,11 @@ import Landing from './components/layout/Landing';
 import LoginPage from './containers/auth/LoginPage';
 import SignUpPage from './containers/auth/SignUpPage';
 import './App.css';
-import Alert from './containers/layout/Alert';
+// import Alert from './containers/layout/Alert';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
+import PrivateRoute from './utils/PrivateRoute';
+import BlogPage from './containers/posts/BlogPage';
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
@@ -36,6 +38,7 @@ function App() {
               <Route path="/" exact component={Landing} />
               <Route path="/login" exact component={LoginPage} />
               <Route path="/signup" exact component={SignUpPage} />
+              <PrivateRoute path="/blog" exact component={BlogPage} />
               <Redirect from="*" to="/" />
             </Switch>
           </div>
