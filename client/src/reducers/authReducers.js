@@ -11,7 +11,7 @@ export default function (state = initialState, action) {
     case SET_CURRENT_USER:
       return {
         ...state,
-        isAuthenticated: action.payload,
+        isAuthenticated: Object.keys(action.payload).length > 0,
         user: action.payload,
       };
     case TOGGLE_USER_LOADING:

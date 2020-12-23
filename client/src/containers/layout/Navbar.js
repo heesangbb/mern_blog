@@ -7,13 +7,8 @@ function Navbar() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 
-  useEffect(() => {
-    console.log('Navbar.js', 'auth', auth.isAuthenticated);
-  }, [auth]);
-
   const handleLogout = e => {
     e.preventDefault();
-
     dispatch(logoutUser());
   };
 

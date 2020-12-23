@@ -25,7 +25,7 @@ function NavigationBar({ auth, logout }) {
 }
 
 NavigationBar.propTypes = {
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
 };
 
