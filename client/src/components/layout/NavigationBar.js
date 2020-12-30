@@ -8,7 +8,7 @@ function NavigationBar({ auth, logout }) {
     <div className="navigation-bar">
       <div className="navigation-content">
         <div className="navigation-logo">
-          <Link to="/">B</Link>
+          <Link to="/">HOME</Link>
         </div>
         <div className="navigation-seperate" />
         <Link to="/blog">Blog</Link>

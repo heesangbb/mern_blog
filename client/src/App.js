@@ -12,7 +12,8 @@ import './App.css';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import PrivateRoute from './utils/PrivateRoute';
-import BlogPage from './containers/posts/BlogPage';
+import BlogPage from './containers/blog/BlogPage';
+import CreatePostPage from './containers/blog/CreatePostPage';
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
@@ -38,7 +39,8 @@ function App() {
               <Route path="/" exact component={Landing} />
               <Route path="/login" exact component={LoginPage} />
               <Route path="/signup" exact component={SignUpPage} />
-              <PrivateRoute path="/blog" exact component={BlogPage} />
+              <Route path="/blog" exact component={BlogPage} />
+              <PrivateRoute path="/blog/post/create" exact component={CreatePostPage} />
               <Redirect from="*" to="/" />
             </Switch>
           </div>

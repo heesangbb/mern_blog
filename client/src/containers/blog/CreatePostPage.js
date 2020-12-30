@@ -1,12 +1,12 @@
 import React from 'react';
 
-function BlogPage() {
+function CreatePostPage() {
   return (
     <div>
       {/*  */}
-      Blog Page
+      create post page
     </div>
   );
 }
 
-export default BlogPage;
+export default CreatePostPage;
