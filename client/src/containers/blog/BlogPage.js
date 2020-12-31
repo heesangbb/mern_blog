@@ -1,9 +1,9 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import PostList from './../../components/blog/PostList';
 
-function BlogPage() {
-  let history = useHistory();
+function BlogPage({ history }) {
+  // let history = useHistory();
 
   const handleCreate = () => {
     history.push('/blog/post/create');

@@ -11,7 +11,7 @@ const FormGroupLabel = styled.label`
   width: 100%;
 `;
 
-const FormGroupInput = styled.input`
+const FormGroupInput = styled.textarea`
   width: 100%;
   font-size: 14px;
   padding: 8px;
@@ -24,27 +24,19 @@ const FormGroupError = styled.div`
   color: red;
 `;
 
-function Input({ type, title, name, value, placeholder, onChange, onBlur, error }) {
+function Textarea({ type, title, name, value, placeholder, onChange, onBlur, error }) {
   return (
     <FormGroup>
       <FormGroupLabel>
         {title}
-        <FormGroupInput
-          type={type}
-          name={name}
-          value={value}
-          placeholder={placeholder}
-          onChange={onChange}
-          onBlur={onBlur}
-        />
+        <FormGroupInput name={name} value={value} placeholder={placeholder} onChange={onChange} onBlur={onBlur} />
       </FormGroupLabel>
       {error && <FormGroupError>{error}</FormGroupError>}
     </FormGroup>
   );
 }
 
-Input.propTypes = {
-  type: PropTypes.string.isRequired,
+Textarea.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
@@ -53,4 +45,4 @@ Input.propTypes = {
   error: PropTypes.string,
 };
 
-export default Input;
+export default Textarea;
