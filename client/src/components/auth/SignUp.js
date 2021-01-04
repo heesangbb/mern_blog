@@ -49,6 +49,7 @@ function SignUp({ user, onChange, onBlur, onSubmit, loading }) {
         error={errors && errors.passwordConfirm}
         placeholder="Enter password confirm"
       />
+      <div>{errors && Object.keys(errors).length > 0 && 'Please fill in all the highlighted fields'}</div>
       <div className="signup-form-group">
         <button type="submit" disabled={loading}>
           Submit

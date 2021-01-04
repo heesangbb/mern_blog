@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PostForm from './../../components/blog/PostForm';
-import { clearErrors } from '../../actions/errorActions';
-import Validate from './../../components/form/Validate';
+// import { clearErrors } from '../../actions/errorActions';
+import { validate } from './../../components/form/Validate';
 
 function CreatePostPage({ history }) {
   const dispatch = useDispatch();
@@ -30,15 +30,26 @@ function CreatePostPage({ history }) {
 
   const handleBlur = e => {
     const { name, value } = e.target;
-    const error = { ...post.errors, ...Validate(name, value).errors };
-    setPost({ ...post, errors: { ...error } });
+    const errors = { ...post.errors };
+    delete errors[name];
+    setPost({ ...post, errors: { ...errors, ...validate(name, value) } });
   };
 
   const handleSubmit = e => {
     e.preventDefault();
+
     const { title, body } = post;
-    console.log('CreatePostPage.js', 'submit', post);
-    // createPost({ title, body }, history);
+    const errors = {
+      ...validate('title', title),
+      ...validate('body', body),
+    };
+    setPost({ ...post, errors });
+
+    // submit
+    if (Object.keys(errors).length === 0) {
+      console.log('CreatePostPage.js', 'submit', post);
+      // createPost({ title, body }, history);
+    }
   };
 
   return (

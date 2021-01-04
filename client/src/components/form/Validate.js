@@ -1,39 +1,46 @@
-const PATTERN = '^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+).([a-zA-Z]{2,5})$';
+export const EMAIL_PATTERN = '^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+).([a-zA-Z]{2,5})$';
 
-function Validate(name, value) {
+export const validate = (name, value) => {
   let errors = {};
   switch (name) {
     case 'name':
-      errors.name = value.length === 0 ? 'Username is required' : '';
+      if (value.length === 0) {
+        errors.name = 'Username is required';
+      }
       break;
     case 'email':
-      errors.email = value.length === 0 ? 'Email is required' : !value.match(PATTERN) ? 'Enter a valid email id' : '';
+      if (value.length === 0) {
+        errors.email = 'Email is required';
+      } else if (!value.match(EMAIL_PATTERN)) {
+        errors.email = 'Enter a valid email id';
+      }
       break;
     case 'password':
-      errors.password =
-        value.length === 0 ? 'Password is required' : value.length < 6 ? 'Password must be atleast 6 characters' : '';
+      if (value.length === 0) {
+        errors.password = 'Password is required';
+      } else if (value.length < 6) {
+        errors.password = 'Password must be atleast 6 characters';
+      }
       break;
     case 'passwordConfirm':
-      errors.passwordConfirm =
-        value.length === 0
-          ? 'Password confirm is required'
-          : value.length < 6
-          ? 'Password must be atleast 6 characters'
-          : '';
+      if (value.length === 0) {
+        errors.passwordConfirm = 'Password confirm is required';
+      } else if (value.length < 6) {
+        errors.passwordConfirm = 'Password must be atleast 6 characters';
+      }
       break;
     case 'title':
-      errors.title = value.length === 0 ? 'Title is required' : '';
+      if (value.length === 0) {
+        errors.title = 'Title is required';
+      }
       break;
     case 'body':
-      errors.body = value.length === 0 ? 'Description is required' : '';
+      if (value.length === 0) {
+        errors.body = 'Description is required';
+      }
       break;
     default:
       break;
   }
-
-  return {
-    errors,
-  };
-}
-
-export default Validate;
+  return errors;
+};

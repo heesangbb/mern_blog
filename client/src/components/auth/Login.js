@@ -32,7 +32,7 @@ function Login({ user, onChange, onBlur, onSubmit, loading, message }) {
         error={errors && errors.password}
         placeholder="Enter password"
       />
-
+      <div>{errors && Object.keys(errors).length > 0 && 'Please fill in all the highlighted fields'}</div>
       <div className="login-form-group">
         <button type="submit" disabled={loading}>
           Submit

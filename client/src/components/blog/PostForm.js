@@ -27,6 +27,7 @@ function PostForm({ post, onChange, onBlur, loading, onSubmit }) {
         error={errors && errors.body}
         placeholder="Enter post here"
       />
+      <div>{errors && Object.keys(errors).length > 0 && 'Please fill in all the highlighted fields'}</div>
       <Button onSubmit={onsubmit}>Submit</Button>
     </form>
   );

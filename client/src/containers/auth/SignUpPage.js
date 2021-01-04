@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SignUp from './../../components/auth/SignUp';
-import Validate from './../../components/form/Validate';
+import { validate } from './../../components/form/Validate';
 import { registerUser } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
 
@@ -41,24 +41,32 @@ function SignUpPage({ history }) {
 
   const handleBlur = e => {
     const { name, value } = e.target;
-    const err = { ...user.errors, ...Validate(name, value).errors };
-    setUser({ ...user, errors: { ...err } });
+    const errors = { ...user.errors };
+    delete errors[name];
+    setUser({ ...user, errors: { ...errors, ...validate(name, value) } });
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
     const { name, email, password, passwordConfirm } = user;
-    if (!name || !email || !password) {
-      alert('Please enter required fileds.');
-      return;
-    }
+    let errors = {
+      ...validate('name', name),
+      ...validate('email', email),
+      ...validate('password', password),
+      ...validate('passwordConfirm', passwordConfirm),
+    };
+    setUser({ ...user, errors });
+
     if (password !== passwordConfirm) {
-      alert('Please check the password confirm fileds.');
-      return;
+      errors = { ...user.errors, ...{ passwordConfirm: 'Please check the password confirm fileds.' } };
+      setUser({ ...user, errors });
     }
 
-    dispatch(registerUser({ name, email, password }, handleCallback));
+    // submit
+    if (Object.keys(errors).length === 0) {
+      dispatch(registerUser({ name, email, password }, handleCallback));
+    }
   };
 
   const handleCallback = () => {

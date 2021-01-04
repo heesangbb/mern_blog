@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Login from './../../components/auth/Login';
-import Validate from './../../components/form/Validate';
+import { validate } from './../../components/form/Validate';
 import { loginUser } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
 
@@ -47,20 +47,25 @@ function LoginPage({ history }) {
 
   const handleBlur = e => {
     const { name, value } = e.target;
-    const err = { ...user.errors, ...Validate(name, value).errors };
-    setUser({ ...user, errors: { ...err } });
+    const errors = { ...user.errors };
+    delete errors[name];
+    setUser({ ...user, errors: { ...errors, ...validate(name, value) } });
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
     const { email, password } = user;
-    if (!email || !password) {
-      alert('Please enter required fileds.');
-      return;
-    }
+    const errors = {
+      ...validate('email', email),
+      ...validate('password', password),
+    };
+    setUser({ ...user, errors });
 
-    dispatch(loginUser({ email, password }));
+    // submit
+    if (Object.keys(errors).length === 0) {
+      dispatch(loginUser({ email, password }));
+    }
   };
 
   return (
