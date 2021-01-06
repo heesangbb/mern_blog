@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PostForm from './../../components/blog/PostForm';
 // import { clearErrors } from '../../actions/errorActions';
 import { validate } from './../../components/form/Validate';
+import { createPost } from '../../actions/blogActions';
 
 function CreatePostPage({ history }) {
   const dispatch = useDispatch();
@@ -48,8 +49,14 @@ function CreatePostPage({ history }) {
     // submit
     if (Object.keys(errors).length === 0) {
       console.log('CreatePostPage.js', 'submit', post);
-      // createPost({ title, body }, history);
+      dispatch(createPost({ title, body }, handleCallback));
     }
+  };
+
+  const handleCallback = () => {
+    //console.log('CreatePostPage.js', 'callback!!!!');
+    alert('Created successfully.');
+    history.push('/blog');
   };
 
   return (
