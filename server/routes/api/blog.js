@@ -4,8 +4,8 @@ const Post = require('../../models/Post');
 const passport = require('passport');
 
 router.get('/posts', (req, res) => {
-  console.log('blog.js', 'posts!!');
-  Post.find()
+  Post.find({})
+    .sort({ createdAt: -1 })
     .then(posts => res.status(200).json(posts))
     .catch(err => res.status(400).json({ user: 'Error fetching posts of logged in user' }));
 });
@@ -14,12 +14,6 @@ router.get('/post/:id', (req, res) => {
   Post.find({ _id: req.params.id })
     .then(post => res.status(200).json(post))
     .catch(err => res.status(400).json({ id: 'Error fetching post by id' }));
-});
-
-router.get('/:author', (req, res) => {
-  Post.find({ author: req.params.author })
-    .then(posts => res.status(200).json(posts))
-    .catch(err => res.status(400).json({ author: 'Error fetching posts of specific author' }));
 });
 
 router.post('/post/create', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -47,6 +41,12 @@ router.delete('/post/delete/:id', passport.authenticate('jwt', { session: false 
   Post.findOneAndDelete({ author, _id: req.params.id })
     .then(doc => res.status(200).json(doc))
     .catch(err => res.status(400).json({ delete: 'Error deleting a post' }));
+});
+
+router.get('/:author', (req, res) => {
+  Post.find({ author: req.params.author })
+    .then(posts => res.status(200).json(posts))
+    .catch(err => res.status(400).json({ author: 'Error fetching posts of specific author' }));
 });
 
 module.exports = router;

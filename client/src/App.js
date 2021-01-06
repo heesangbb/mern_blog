@@ -14,6 +14,7 @@ import { setCurrentUser, logoutUser } from './actions/authActions';
 import PrivateRoute from './utils/PrivateRoute';
 import BlogPage from './containers/blog/BlogPage';
 import CreatePostPage from './containers/blog/CreatePostPage';
+import ViewPostPage from './containers/blog/ViewPostPage';
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
@@ -23,7 +24,7 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
-    window.location.href = './loginPage';
+    //window.location.href = './loginPage';
   }
 }
 
@@ -36,11 +37,21 @@ function App() {
           <div className="wrap-content">
             {/* <Alert /> */}
             <Switch>
+              {/* home */}
               <Route path="/" exact component={Landing} />
+
+              {/* login */}
               <Route path="/login" exact component={LoginPage} />
               <Route path="/signup" exact component={SignUpPage} />
+
+              {/* blog */}
               <Route path="/blog" exact component={BlogPage} />
-              <PrivateRoute path="/blog/post/create" exact component={CreatePostPage} />
+              <PrivateRoute path="/blog/post/new" exact component={CreatePostPage} />
+              <PrivateRoute path="/blog/post/edit/:id" exact component={CreatePostPage} />
+              <Route path="/blog/post/:id" exact component={ViewPostPage} />
+              <Route path="/blog/:author" exact component={BlogPage} />
+
+              {/*  */}
               <Redirect from="*" to="/" />
             </Switch>
           </div>

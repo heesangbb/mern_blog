@@ -4,8 +4,9 @@ import Login from './../../components/auth/Login';
 import { validate } from './../../components/form/Validate';
 import { loginUser } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
+import { Redirect } from 'react-router-dom';
 
-function LoginPage({ history }) {
+function LoginPage({ history, location }) {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const errors = useSelector(state => state.errors);
@@ -31,7 +32,8 @@ function LoginPage({ history }) {
 
   useEffect(() => {
     if (auth.isAuthenticated) {
-      history.push('/');
+      const { from } = location.state || { from: { pathname: '/' } };
+      history.push(from.pathname);
     }
     setUser(user => {
       return { ...user, errors };

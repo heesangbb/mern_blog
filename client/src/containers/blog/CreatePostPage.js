@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import PostForm from './../../components/blog/PostForm';
 // import { clearErrors } from '../../actions/errorActions';
 import { validate } from './../../components/form/Validate';
-import { createPost } from '../../actions/blogActions';
+import { createPost, updatePost, getPostByID } from '../../actions/blogActions';
 
-function CreatePostPage({ history }) {
+function CreatePostPage({ history, match }) {
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
   const errors = useSelector(state => state.errors);
+  const auth = useSelector(state => state.auth);
+  const blog = useSelector(state => state.blog);
 
   const [post, setPost] = useState({
     title: '',
@@ -21,6 +22,25 @@ function CreatePostPage({ history }) {
       return { ...post, errors };
     });
   }, [errors]);
+
+  useEffect(() => {
+    if (match.params.id) {
+      dispatch(getPostByID(match.params.id));
+    }
+  }, [match]);
+
+  useEffect(() => {
+    if (blog.post._id) {
+      setPost(post => {
+        return {
+          ...post,
+          _id: blog.post._id,
+          title: blog.post.title,
+          body: blog.post.body,
+        };
+      });
+    }
+  }, [blog]);
 
   const handleChange = e => {
     setPost({
@@ -48,26 +68,29 @@ function CreatePostPage({ history }) {
 
     // submit
     if (Object.keys(errors).length === 0) {
-      console.log('CreatePostPage.js', 'submit', post);
-      dispatch(createPost({ title, body }, handleCallback));
+      if (post._id) {
+        dispatch(
+          updatePost(post._id, { title, body }, () => {
+            alert(`Update successfully.`);
+            onList();
+          }),
+        );
+      } else {
+        dispatch(
+          createPost({ title, body }, () => {
+            alert(`Create successfully.`);
+            onList();
+          }),
+        );
+      }
     }
   };
 
-  const handleCallback = () => {
-    //console.log('CreatePostPage.js', 'callback!!!!');
-    alert('Created successfully.');
+  const onList = () => {
     history.push('/blog');
   };
 
-  return (
-    <PostForm
-      post={post}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      onSubmit={handleSubmit}
-      loading={auth.userLoading}
-    />
-  );
+  return <PostForm post={post} onChange={handleChange} onBlur={handleBlur} onSubmit={handleSubmit} onList={onList} />;
 }
 
 export default CreatePostPage;

@@ -1,24 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '../form/Button';
+import { Link } from 'react-router-dom';
 
-function PostList({ create }) {
+function PostList({ posts }) {
+  const renderPost = () =>
+    posts.map(post => (
+      <Link to={`/blog/post/${post._id}`} key={post._id}>
+        <div>{post.title}</div>
+      </Link>
+    ));
+
   return (
     <div>
-      <div>
-        <Button color="primary" onClick={create}>
-          Create post
-        </Button>
-      </div>
-      <div>
-        <div>Post 1</div>
-      </div>
+      {posts.length > 0 ? (
+        <div>{renderPost()}</div>
+      ) : (
+        <div>
+          <div>No Post Found !</div>
+        </div>
+      )}
     </div>
   );
 }
 
 PostList.propTypes = {
-  create: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired,
 };
 
 export default PostList;
